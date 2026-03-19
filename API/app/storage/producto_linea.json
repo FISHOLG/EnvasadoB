@@ -1,0 +1,14 @@
+{
+    "fecha": "18-02-2026 17:00:14",
+    "producto_linea": [
+        {
+            "cod_linea": "PRL000000001",
+            "productos": [
+                {
+                    "cod_articulo": "ARC000000068",
+                    "descripcion": "COLA 10 CM"
+                }
+            ]
+        }
+    ]
+}

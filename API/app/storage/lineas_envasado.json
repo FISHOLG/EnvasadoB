@@ -1,0 +1,25 @@
+{
+    "lineas": [
+        {
+            "cod_linea": "PRL000000002",
+            "descr": "LINEA 2",
+            "usuario": "asist3"
+        },
+        {
+            "cod_linea": "PRL000000001",
+            "descr": "LINEA 1",
+            "usuario": "asist3"
+        },
+        {
+            "cod_linea": "PRL000000003",
+            "descr": "LINEA 3",
+            "usuario": "asist3"
+        },
+        {
+            "cod_linea": "PRL000000004",
+            "descr": "LINEA 4",
+            "usuario": "asist3"
+        }
+    ],
+    "fecha": "19-02-2026 08:40:36"
+}
