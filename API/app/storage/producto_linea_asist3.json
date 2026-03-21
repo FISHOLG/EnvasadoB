@@ -1,0 +1,15 @@
+{
+    "usuario": "asist3",
+    "fecha": "21-03-2026 12:53:37",
+    "producto_linea": [
+        {
+            "cod_linea": "PRL000000001",
+            "productos": [
+                {
+                    "cod_articulo": "ARC000000409",
+                    "descripcion": "RECORTE DE ALETA CRUDO S\/E"
+                }
+            ]
+        }
+    ]
+}

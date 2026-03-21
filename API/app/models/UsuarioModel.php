@@ -9,10 +9,13 @@ class UsuarioModel
     {
         $conn = conectarDB();
 
-        $sql = " SELECT COD_USR, NOMBRE, CLAVE, PERFIL
-            FROM USUARIO
-            WHERE COD_USR = :usuario
-              AND PERFIL = 'OPER_TI' ";
+        $sql = "SELECT 
+                    COD_USR, 
+                    NOMBRE, 
+                    CLAVE, 
+                    TRIM(PERFIL) AS PERFIL
+                FROM USUARIO
+                WHERE COD_USR = :usuario";
 
         $stmt = oci_parse($conn, $sql);
         oci_bind_by_name($stmt, ':usuario', $usuario);
@@ -23,32 +26,35 @@ class UsuarioModel
         oci_free_statement($stmt);
         oci_close($conn);
 
+        // ================= VALIDACIÓN USUARIO =================
         if (!$row || empty($row['CLAVE'])) {
-            error_log("USUARIO NO ENCONTRADO: {$usuario}");
+            // error_log("USUARIO NO ENCONTRADO: {$usuario}");
             return null;
         }
 
         $claveDesencriptada = encriptado::decrypt($row['CLAVE']);
 
-        // ===== DEBUG CLAVES =====
-        error_log("LOGIN DEBUG --------------------");
-        error_log("USUARIO        : {$usuario}");
-        error_log("CLAVE BD       : {$row['CLAVE']}");
-        error_log("CLAVE DESENC   : [" . $claveDesencriptada . "]");
-        error_log("CLAVE INGRESO  : [" . $clave . "]");
-        error_log("--------------------------------");
+        // ================= DEBUG CLAVES =================
+        // error_log("LOGIN DEBUG --------------------");
+        // error_log("USUARIO        : {$usuario}");
+        // error_log("CLAVE BD       : {$row['CLAVE']}");
+        // error_log("CLAVE DESENC   : [" . $claveDesencriptada . "]");
+        // error_log("CLAVE INGRESO  : [" . $clave . "]");
+        // error_log("--------------------------------");
 
+        // ================= VALIDAR CONTRASEÑA =================
         if (trim($claveDesencriptada) !== trim($clave)) {
-            error_log("Clave incorrecta para {$usuario}");
+            // error_log("Clave incorrecta para {$usuario}");
             return null;
         }
 
-        error_log("LOGIN OK → {$usuario}");
+        // error_log("LOGIN OK → {$usuario}");
 
+        // ================= RETORNO LIMPIO =================
         return [
             'cod_usr' => $row['COD_USR'],
             'nombre'  => $row['NOMBRE'],
-            'perfil'  => $row['PERFIL'],
+            'perfil'  => trim($row['PERFIL']), // seguridad extra
         ];
     }
 }

@@ -6,8 +6,7 @@ class PlanDiarioModel
 {
     /**
      * Listar planes diarios desde PARTE_PRODUCCION
-     * - ESPECIE sin espacios
-     * - FECHA en formato DD/MM/YYYY
+     * ESPECIE / FECHA
      */
     public function listarPlanes()
     {
@@ -21,7 +20,7 @@ class PlanDiarioModel
                 FLAG_ESTADO
             FROM PARTE_PRODUCCION
             WHERE FLAG_ESTADO = 1
-            ORDER BY FECHA_PART DESC
+            ORDER BY COD_PARTE_PRODUCC DESC
         ";
 
         $stmt = oci_parse($conn, $sql);

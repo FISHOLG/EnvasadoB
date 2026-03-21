@@ -1,5 +1,5 @@
 <?php
-ini_set('display_errors', '0');          // NO mostrar en respuesta
+ini_set('display_errors', '1');          // NO mostrar en respuesta
 ini_set('display_startup_errors', '0');
 ini_set('log_errors', '1');               // SÍ guardar en log
 ini_set('error_reporting', E_ALL);
