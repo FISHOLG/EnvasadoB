@@ -6,10 +6,7 @@ require_once __DIR__ . '/../helper/CacheHelper.php';
 
 class SoporteController
 {
-
-    /* 
-       LISTAR MAESTRO
-     */
+    /* LISTAR MAESTRO*/
     public function listar()
 {
     try {
@@ -53,8 +50,6 @@ class SoporteController
         ];
     }
 }
-
-
     /* ASIGNAR SOPORTES*/
     public function asignar()
     {
@@ -150,7 +145,6 @@ class SoporteController
             ];
         }
     }
-
     // LISTAR LOS TIPOS DE ENVASE (LUGAR O ENVASE DONDE VA EL PRODUCTO)
     public function obtenerTiposEnvase()
 {
@@ -175,8 +169,6 @@ class SoporteController
         ];
     }
 }
-
-
     /* FINALIZAR PARIHUELA*/
     public function finalizar()
 {
@@ -229,7 +221,7 @@ class SoporteController
     }
 }
     /* ACTUALIZAR ESTADO*/
-        public function actualizarEstado()
+    public function actualizarEstado()
 {
     try {
 
@@ -270,7 +262,7 @@ class SoporteController
     }
 }
     /* ELIMINAR */
-public function eliminarSoporte()
+    public function eliminarSoporte()
 {
     try {
 
@@ -329,7 +321,6 @@ public function eliminarSoporte()
         ];
     }
 }
-
     /* OBTENER POR SOPORTE POR LINEA */
     public function porLinea()
 {
@@ -386,8 +377,6 @@ public function eliminarSoporte()
         ];
     }
 }
-
-
     /* INSERTAR DETALLE */
     public function insertarDetalle()
 {
@@ -475,10 +464,8 @@ public function eliminarSoporte()
         ];
     }
 }
-
     //OBTENER SOPORTES FINALIZADOS
-
-public function obtenerSoportesFinalizados()
+    public function obtenerSoportesFinalizados()
 {
     try {
 
@@ -556,9 +543,8 @@ public function obtenerSoportesFinalizados()
         ];
     }
 }
-
-// PASAR DE ESTADO 2 A 1
-public function regresarSoporteLinea()
+    // PASAR DE ESTADO 2 A 1
+    public function regresarSoporteLinea()
 {
     try {
 
@@ -642,11 +628,8 @@ public function regresarSoporteLinea()
         ];
     }
 }
-
-// 
-
-        /* PASAR SOPORTE A CONGELADO*/
-public function pasarACongelado()
+    /* PASAR SOPORTE A CONGELADO*/
+    public function pasarSoporteACongelado()
         {
             try {
 
@@ -671,7 +654,7 @@ public function pasarACongelado()
 
         $model = new SoporteModel();
 
-        $model->pasarACongelado($codGenvaS);
+        $model->pasarSoporteACongelado($codGenvaS);
 
         /*  GUARDAR EN CACHE */
 
@@ -698,10 +681,8 @@ public function pasarACongelado()
         ];
     }
 }
-
-// PASAR DE CONGELADO A FINALIZAADO  
-
-        public function devolverAFinalizado()
+    // PASAR DE CONGELADO A FINALIZAADO  
+    public function devolverSoporteAFinalizado()
         {
             try {
 
@@ -719,7 +700,7 @@ public function pasarACongelado()
         /* ACTUALIZAR ESTADO EN BD */
 
         $model = new SoporteModel();
-        $model->devolverAFinalizado($codGenvaS);
+        $model->devolverSoporteAFinalizado($codGenvaS);
 
         /* ELIMINAR DEL CACHE */
 
@@ -732,7 +713,8 @@ public function pasarACongelado()
 
     } catch (Throwable $e) {
 
-        http_response_code(500);
+        // http_response_code(500);
+        http_response_code(400);
 
         return [
             "ok" => false,
@@ -741,10 +723,9 @@ public function pasarACongelado()
         ];
     }
 }
-
-//SOPORTES DE ESTADO 3 = CONGELADO
-//  LEER CACHE DE MAQUINAS
-public function obtenerSoportesMaquina()
+    //SOPORTES DE ESTADO 3 = CONGELADO
+    //  LEER CACHE DE MAQUINAS
+    public function obtenerSoportesMaquina()
 {
     $codMaq = $_GET["cod_maq"] ?? null;
 

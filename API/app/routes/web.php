@@ -12,8 +12,7 @@ require_once __DIR__ . '/../controllers/TurnoEnvasadoController.php';
 require_once __DIR__ . '/../controllers/ArticuloCongeController.php';
 require_once __DIR__ . '/../controllers/SoporteController.php';
 require_once __DIR__ . '/../controllers/MaquinaCongeController.php';
-
-
+require_once __DIR__ . '/../controllers/TurnoCongeladoController.php';
 /*================ RUTAS GET ================= */
 
 // Ruta de prueba
@@ -77,16 +76,24 @@ $router->post('/envasado/turno/lineas', 'TurnoEnvasadoController@insertarLineasT
 $router->get('/envasado/tipo-envase','SoporteController@obtenerTiposEnvase');
 // Regresar soporte a línea
 $router->post('/envasado/soporte/regresar', 'SoporteController@regresarSoporteLinea');
+
+
+
 // ======================= CONGELADO =======================
 
+// Ejecutar turno congelado
+$router->post('/congelado/turno/ejecutar-turno-congelado', 'TurnoCongeladoController@ejecutarTurnoCongelado');
+
+// Estado del turno congelado
+$router->get('/congelado/turno/estado-congelado', 'TurnoCongeladoController@estadoTurnoCongelado');
 // Listar máquinas de congelado
 $router->get('/congelado/maquinas', 'MaquinaCongeController@listarMaquinas');
 // Soportes finalizados
 $router->get('/congelado/soportes-finalizados', 'SoporteController@obtenerSoportesFinalizados');
 // Pasar soporte a congelado
-$router->post('/congelado/soporte/pasar', 'SoporteController@pasarACongelado');
+$router->post('/congelado/soporte/pasar-soporte-congelado', 'SoporteController@pasarSoporteACongelado');
 // Devolver soporte a finalizado
-$router->post('/congelado/soporte/devolver', 'SoporteController@devolverAFinalizado');
+$router->post('/congelado/soporte/devolver-soportefinalizado', 'SoporteController@devolverSoporteAFinalizado');
 // devolver congelado (ESTADO = 3)
 $router->get('/congelado/soportes-congelador', 'SoporteController@obtenerSoportesCongelador');
 // Leer cache de máquinas

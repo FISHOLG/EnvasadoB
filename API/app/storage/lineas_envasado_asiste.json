@@ -1,0 +1,16 @@
+{
+    "usuario": "asiste",
+    "lineas": [
+        {
+            "cod_linea": "PRL000000003",
+            "descr": "LINEA 3",
+            "usuario": "asiste"
+        },
+        {
+            "cod_linea": "PRL000000001",
+            "descr": "LINEA 1",
+            "usuario": "asiste"
+        }
+    ],
+    "fecha": "24-03-2026 09:41:56"
+}

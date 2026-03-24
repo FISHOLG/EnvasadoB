@@ -1,6 +1,6 @@
 {
     "usuario": "asist3",
-    "fecha": "21-03-2026 12:53:37",
+    "fecha": "24-03-2026 08:46:29",
     "producto_linea": [
         {
             "cod_linea": "PRL000000001",
@@ -8,6 +8,33 @@
                 {
                     "cod_articulo": "ARC000000409",
                     "descripcion": "RECORTE DE ALETA CRUDO S\/E"
+                }
+            ]
+        },
+        {
+            "cod_linea": "PRL000000003",
+            "productos": [
+                {
+                    "cod_articulo": "ARC000000001",
+                    "descripcion": "ALETA C\/P CARNADA CRUDA S\/E"
+                }
+            ]
+        },
+        {
+            "cod_linea": "PRL000000002",
+            "productos": [
+                {
+                    "cod_articulo": "ARC000000001",
+                    "descripcion": "ALETA C\/P CARNADA CRUDA S\/E"
+                }
+            ]
+        },
+        {
+            "cod_linea": "PRL000000004",
+            "productos": [
+                {
+                    "cod_articulo": "ARC000000003",
+                    "descripcion": "ALETA C\/P CRUDA 0-1 KG"
                 }
             ]
         }

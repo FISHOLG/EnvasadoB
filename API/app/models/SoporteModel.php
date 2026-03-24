@@ -138,11 +138,7 @@ public function insertarMultiplesSoportes( array $soportes, string $codLinea, st
 }
 
 /* ACTUALIZAR ESTADO DE LA PARIHUELA O SOPORTE*/
-
-public function actualizarEstado(
-    string $codGenvaS,
-    int $estado
-): bool {
+public function actualizarEstado(string $codGenvaS, int $estado): bool {
 
     $conn = conectarDB();
 
@@ -167,7 +163,6 @@ public function actualizarEstado(
 }
 
 /* ELIMINAR SOPORTE*/
-
 public function eliminarSoporteDeLinea( string $codGenvaS, string $codLinea, string $codTurno, string $codUsr, string $codEnvaS
 ): bool {
 
@@ -219,7 +214,6 @@ public function eliminarSoporteDeLinea( string $codGenvaS, string $codLinea, str
 
     return true;
 }
-
 
 /* SOPORTES POR LINEA*/
 public function obtenerSoportesPorLinea(string $codLinea, string $codTurno): array
@@ -277,9 +271,7 @@ public function finalizarParihuela(string $codEnvaS,string $codLinea): ?string
     return null;
 }
 
-
-
-      /* ORIGEN USUARIO*/
+/* ORIGEN USUARIO*/
 public function obtenerOrigenPorUsuario(string $codUsr): ?string
 {
 
@@ -302,7 +294,6 @@ oci_close($conn);
 return $row['ORIGEN_ALT'] ?? null;
 
 }
-
 
 /* LISTAR TIPOS DE ENVASE */
 public function obtenerTiposEnvase(): array
@@ -457,40 +448,6 @@ return $data;
 
 }
 
-/* SOPORTES FINALIZADOS*/
-
-public function obtenerSoportesFinalizados(string $codTurno): array
-{
-
-$conn=conectarDB();
-
-$sql="SELECT g.COD_GENVA_S, g.COD_ENVA_S, e.COD_PRODUCCION, e.TIPO, t.COD_LINEA, pl.DESCR AS DESC_LINEA, TO_CHAR(g.FECHA_REG,'DD-MON-YY HH24:MI') AS FECHA_REG,
-MAX(a.DESCR) AS PRODUCTO, MAX(TRIM(p.ESPECIE) || ' - ' || TO_CHAR(p.FECHA_PART,'DD/MM/YYYY')) AS PLAN_DIARIO,
-SUM(d.KILOS) AS TOTAL_KILOS, LISTAGG(te.DESCRIPCION, ', ') WITHIN GROUP (ORDER BY te.DESCRIPCION) AS TIPO_ENVASE 
-FROM GES_ENVA_SOPORTE g JOIN ENVA_SOPORTE e ON e.COD_ENVA_S = g.COD_ENVA_S JOIN TURNO_ENVA_LINEA t ON t.COD_GENVA_S = g.COD_GENVA_S
-LEFT JOIN PRODUCC_LINEAS pl ON pl.COD_LINEA = t.COD_LINEA LEFT JOIN GES_ENVA_SOPORTE_DET d ON d.COD_TEL = t.COD_TEL
-LEFT JOIN ARTICULO_CONGE a ON a.COD_ART_CONG = d.COD_ART_CONG LEFT JOIN TIPO_ENVA te
-ON te.COD_TIPO_ENVA = d.COD_TIPO_ENVA LEFT JOIN PARTE_PRODUCCION p
-ON p.COD_PARTE_PRODUCC = d.COD_PARTE_PRODUCC WHERE g.ESTADO = 2
-AND t.COD_TUR_ENV = :codTurno GROUP BY g.COD_GENVA_S, g.COD_ENVA_S, e.COD_PRODUCCION, e.TIPO, t.COD_LINEA, pl.DESCR,  g.FECHA_REG ORDER BY g.FECHA_REG DESC";
-
-$stmt=oci_parse($conn,$sql);
-oci_bind_by_name($stmt,":codTurno",$codTurno);
-oci_execute($stmt);
-
-$data=[];
-
-while($row=oci_fetch_assoc($stmt)){
-$data[]=$row;
-}
-
-oci_free_statement($stmt);
-oci_close($conn);
-
-return $data;
-
-}
-
 // REGRESAR SOPORTE LINEA 
 public function obtenerLineaOrigen(string $codGenvaS): ?string
 {
@@ -576,100 +533,245 @@ public function moverSoporteLinea( string $codGenvaS, string $codLineaDestino, s
 }
 
 
+/* SOPORTES FINALIZADOS*/
+
+public function obtenerSoportesFinalizados(string $codTurno): array
+{
+
+$conn=conectarDB();
+
+$sql="SELECT g.COD_GENVA_S, g.COD_ENVA_S, e.COD_PRODUCCION, e.TIPO, t.COD_LINEA, pl.DESCR AS DESC_LINEA, TO_CHAR(g.FECHA_REG,'DD-MON-YY HH24:MI') AS FECHA_REG,
+MAX(a.DESCR) AS PRODUCTO, MAX(TRIM(p.ESPECIE) || ' - ' || TO_CHAR(p.FECHA_PART,'DD/MM/YYYY')) AS PLAN_DIARIO,
+SUM(d.KILOS) AS TOTAL_KILOS, LISTAGG(te.DESCRIPCION, ', ') WITHIN GROUP (ORDER BY te.DESCRIPCION) AS TIPO_ENVASE 
+FROM GES_ENVA_SOPORTE g JOIN ENVA_SOPORTE e ON e.COD_ENVA_S = g.COD_ENVA_S JOIN TURNO_ENVA_LINEA t ON t.COD_GENVA_S = g.COD_GENVA_S
+LEFT JOIN PRODUCC_LINEAS pl ON pl.COD_LINEA = t.COD_LINEA LEFT JOIN GES_ENVA_SOPORTE_DET d ON d.COD_TEL = t.COD_TEL
+LEFT JOIN ARTICULO_CONGE a ON a.COD_ART_CONG = d.COD_ART_CONG LEFT JOIN TIPO_ENVA te
+ON te.COD_TIPO_ENVA = d.COD_TIPO_ENVA LEFT JOIN PARTE_PRODUCCION p
+ON p.COD_PARTE_PRODUCC = d.COD_PARTE_PRODUCC WHERE g.ESTADO = 2
+AND t.COD_TUR_ENV = :codTurno GROUP BY g.COD_GENVA_S, g.COD_ENVA_S, e.COD_PRODUCCION, e.TIPO, t.COD_LINEA, pl.DESCR,  g.FECHA_REG ORDER BY g.FECHA_REG DESC";
+
+$stmt=oci_parse($conn,$sql);
+oci_bind_by_name($stmt,":codTurno",$codTurno);
+oci_execute($stmt);
+
+$data=[];
+
+while($row=oci_fetch_assoc($stmt)){
+$data[]=$row;
+}
+
+oci_free_statement($stmt);
+oci_close($conn);
+
+return $data;
+
+}
+
+
+
 /* PASAR A CONGELADO POR MAQUINA */
-public function pasarACongelado(
-    string $codGenvaS
-): bool
+// public function pasarSoporteACongelado(string $codGenvaS): bool
+// {
+//     $conn = conectarDB();
+
+//     if (!$conn) {
+//         throw new Exception("Error al conectar con la base de datos.");
+//     }
+//     $sql = "UPDATE GES_ENVA_SOPORTE
+//             SET ESTADO = 3
+//             WHERE TRIM(COD_GENVA_S) = TRIM(:codGenvaS)
+//             AND ESTADO = 2";
+
+//     $stmt = oci_parse($conn, $sql);
+
+//     if (!$stmt) {
+//         $error = oci_error($conn);
+//         throw new Exception($error['message']);
+//     }
+
+//     oci_bind_by_name($stmt, ":codGenvaS", $codGenvaS);
+
+//     $ok = oci_execute($stmt, OCI_COMMIT_ON_SUCCESS);
+
+//     if (!$ok) {
+
+//         $error = oci_error($stmt);
+
+//         oci_free_statement($stmt);
+//         oci_close($conn);
+
+//         throw new Exception($error['message']);
+//     }
+
+//     $rows = oci_num_rows($stmt);
+
+//     oci_free_statement($stmt);
+//     oci_close($conn);
+
+//     /* VALIDAR SI REALMENTE SE ACTUALIZÓ */
+
+//     if ($rows === 0) {
+//         throw new Exception("No se pudo actualizar el soporte. Puede que no esté en estado FINALIZADO.");
+//     }
+
+//     return true;
+// }
+
+public function pasarSoporteACongelado(string $codGenvaS): bool
 {
     $conn = conectarDB();
 
     if (!$conn) {
         throw new Exception("Error al conectar con la base de datos.");
     }
-    $sql = "UPDATE GES_ENVA_SOPORTE
-            SET ESTADO = 3
-            WHERE TRIM(COD_GENVA_S) = TRIM(:codGenvaS)
-            AND ESTADO = 2";
+
+    //  VALIDAR ESTADO = 2 
+    $sqlValidar = "SELECT ESTADO 
+                   FROM GES_ENVA_SOPORTE 
+                   WHERE TRIM(COD_GENVA_S) = TRIM(:codGenvaS)";
+
+    $stmtValidar = oci_parse($conn, $sqlValidar);
+    oci_bind_by_name($stmtValidar, ":codGenvaS", $codGenvaS);
+    oci_execute($stmtValidar);
+
+    $row = oci_fetch_assoc($stmtValidar);
+
+    if (!$row || (int)$row['ESTADO'] !== 2) {
+        oci_free_statement($stmtValidar);
+        oci_close($conn);
+        throw new Exception("El soporte no está en estado FINALIZADO.");
+    }
+
+    oci_free_statement($stmtValidar);
+
+    $sql = "BEGIN usp_cambiar_estado_ges(:cod, :estado); END;";
 
     $stmt = oci_parse($conn, $sql);
 
     if (!$stmt) {
         $error = oci_error($conn);
+        oci_close($conn);
         throw new Exception($error['message']);
     }
 
-    oci_bind_by_name($stmt, ":codGenvaS", $codGenvaS);
+    $estado = 3;
+
+    oci_bind_by_name($stmt, ":cod", $codGenvaS);
+    oci_bind_by_name($stmt, ":estado", $estado);
 
     $ok = oci_execute($stmt, OCI_COMMIT_ON_SUCCESS);
 
     if (!$ok) {
-
         $error = oci_error($stmt);
-
         oci_free_statement($stmt);
         oci_close($conn);
-
         throw new Exception($error['message']);
     }
-
-    $rows = oci_num_rows($stmt);
-
     oci_free_statement($stmt);
     oci_close($conn);
-
-    /* VALIDAR SI REALMENTE SE ACTUALIZÓ */
-
-    if ($rows === 0) {
-        throw new Exception("No se pudo actualizar el soporte. Puede que no esté en estado FINALIZADO.");
-    }
 
     return true;
 }
 
 /* DEVOLVER A FINALIZADO */
-public function devolverAFinalizado(string $codGenvaS): bool
-{
+// public function devolverSoporteAFinalizado(string $codGenvaS): bool
+// {
 
+//     $conn = conectarDB();
+
+//     if (!$conn) {
+//         throw new Exception("Error al conectar con la base de datos.");
+//     }
+
+//     $sql = "UPDATE GES_ENVA_SOPORTE SET ESTADO = 2 WHERE TRIM(COD_GENVA_S) = TRIM(:codGenvaS) AND ESTADO = 3";
+
+//     $stmt = oci_parse($conn, $sql);
+
+//     if (!$stmt) {
+//         $error = oci_error($conn);
+//         throw new Exception($error['message']);
+//     }
+
+//     oci_bind_by_name($stmt, ":codGenvaS", $codGenvaS);
+
+//     $ok = oci_execute($stmt, OCI_COMMIT_ON_SUCCESS);
+
+//     if (!$ok) {
+
+//         $error = oci_error($stmt);
+
+//         oci_free_statement($stmt);
+//         oci_close($conn);
+
+//         throw new Exception($error['message']);
+//     }
+
+//     $rows = oci_num_rows($stmt);
+
+//     oci_free_statement($stmt);
+//     oci_close($conn);
+
+//     /* VALIDAR SI SE ACTUALIZÓ */
+
+//     if ($rows === 0) {
+//         throw new Exception("No Se Pudo Actualizar Soporte.");
+//     }
+//     return true;
+// }
+public function devolverSoporteAFinalizado(string $codGenvaS): bool
+{
     $conn = conectarDB();
 
     if (!$conn) {
-        throw new Exception("Error al conectar con la base de datos.");
+        throw new Exception("Error al Conectar con la base de datos.");
     }
 
-    $sql = "UPDATE GES_ENVA_SOPORTE SET ESTADO = 2 WHERE TRIM(COD_GENVA_S) = TRIM(:codGenvaS) AND ESTADO = 3";
+    /* VALIDAR QUE ESTÉ EN ESTADO 3 */
+    $sqlValidar = "SELECT ESTADO 
+                   FROM GES_ENVA_SOPORTE 
+                   WHERE TRIM(COD_GENVA_S) = TRIM(:codGenvaS)";
+
+    $stmtValidar = oci_parse($conn, $sqlValidar);
+    oci_bind_by_name($stmtValidar, ":codGenvaS", $codGenvaS);
+    oci_execute($stmtValidar);
+
+    $row = oci_fetch_assoc($stmtValidar);
+
+    if (!$row || (int)$row['ESTADO'] !== 3) {
+        oci_free_statement($stmtValidar);
+        oci_close($conn);
+        throw new Exception("El soporte no está en estado CONGELADO.");
+    }
+
+    oci_free_statement($stmtValidar);
+
+    $sql = "BEGIN usp_cambiar_estado_ges(:cod, :estado); END;";
 
     $stmt = oci_parse($conn, $sql);
 
     if (!$stmt) {
         $error = oci_error($conn);
+        oci_close($conn);
         throw new Exception($error['message']);
     }
 
-    oci_bind_by_name($stmt, ":codGenvaS", $codGenvaS);
+    $estadoFinal = 2;
+
+    oci_bind_by_name($stmt, ":cod", $codGenvaS);
+    oci_bind_by_name($stmt, ":estado", $estadoFinal);
 
     $ok = oci_execute($stmt, OCI_COMMIT_ON_SUCCESS);
 
     if (!$ok) {
-
         $error = oci_error($stmt);
-
         oci_free_statement($stmt);
         oci_close($conn);
-
         throw new Exception($error['message']);
     }
-
-    $rows = oci_num_rows($stmt);
 
     oci_free_statement($stmt);
     oci_close($conn);
 
-    /* VALIDAR SI SE ACTUALIZÓ */
-
-    if ($rows === 0) {
-        throw new Exception("No Se Pudo Actualizar Soporte.");
-    }
     return true;
 }
-
 }

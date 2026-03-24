@@ -237,3 +237,16 @@ ORA-06512: at line 1 in D:\XD\WebBacks\envasado\API\app\models\TurnoEnvasadoMode
 [21-Mar-2026 12:47:17 America/Lima] PHP Warning:  oci_execute(): ORA-04098: trigger 'REF_FISHOLG.TIB_TURNO_ENVASADO' is invalid and failed re-validation
 ORA-06512: at &quot;REF_FISHOLG.USP_INICIAR_FINALIZAR_TURNO_ENV&quot;, line 7
 ORA-06512: at line 1 in D:\XD\WebBacks\envasado\API\app\models\TurnoEnvasadoModel.php on line 39
+[23-Mar-2026 10:28:43 America/Lima] PHP Warning:  oci_execute(): ORA-12899: value too large for column &quot;REF_FISHOLG&quot;.&quot;TURNO_CONGELAMIENTO&quot;.&quot;COD_USR&quot; (actual: 8, maximum: 6)
+ORA-06512: at &quot;REF_FISHOLG.USP_INICIAR_FINALIZAR_TURNO_CONGE&quot;, line 7
+ORA-06512: at line 1 in D:\XD\WebBacks\envasado\API\app\models\TurnoCongeladoModel.php on line 33
+[23-Mar-2026 10:29:00 America/Lima] PHP Warning:  oci_execute(): ORA-02291: integrity constraint (REF_FISHOLG.FK_USUARIO_REF_TC) violated - parent key not found
+ORA-06512: at &quot;REF_FISHOLG.USP_INICIAR_FINALIZAR_TURNO_CONGE&quot;, line 7
+ORA-06512: at line 1 in D:\XD\WebBacks\envasado\API\app\models\TurnoCongeladoModel.php on line 33
+[23-Mar-2026 10:29:27 America/Lima] PHP Warning:  oci_execute(): ORA-02291: integrity constraint (REF_FISHOLG.FK_USUARIO_REF_TC) violated - parent key not found
+ORA-06512: at &quot;REF_FISHOLG.USP_INICIAR_FINALIZAR_TURNO_CONGE&quot;, line 7
+ORA-06512: at line 1 in D:\XD\WebBacks\envasado\API\app\models\TurnoCongeladoModel.php on line 33
+[23-Mar-2026 10:41:33 America/Lima] PHP Warning:  oci_execute(): ORA-02291: integrity constraint (REF_FISHOLG.FK_USUARIO_REF_TC) violated - parent key not found
+ORA-06512: at &quot;REF_FISHOLG.USP_INICIAR_FINALIZAR_TURNO_CONGE&quot;, line 7
+ORA-06512: at line 1 in D:\XD\WebBacks\envasado\API\app\models\TurnoCongeladoModel.php on line 33
+[24-Mar-2026 11:37:55 America/Lima] PHP Warning:  oci_pconnect(): ORA-12170: TNS:Connect timeout occurred in D:\XD\WebBacks\envasado\API\config\db.php on line 7
